@@ -533,7 +533,12 @@ async fn handle_push_event(
 
             // In channels (non-DM), only respond to thread replies (existing sessions).
             // New messages in channels require @mention (handled by AppMention event).
-            let channel_id = msg.origin.channel.as_ref().map(|c| c.to_string()).unwrap_or_default();
+            let channel_id = msg
+                .origin
+                .channel
+                .as_ref()
+                .map(|c| c.to_string())
+                .unwrap_or_default();
             let is_dm = channel_id.starts_with('D');
             if !is_dm && msg.origin.thread_ts.is_none() {
                 trace!("Ignoring non-threaded channel message, use @mention instead");
