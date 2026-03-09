@@ -48,6 +48,7 @@ pub struct SlackEvent {
     pub channel: String,
     pub ts: String,
     pub thread_ts: Option<String>,
+    pub user: String,
     pub text: String,
     pub files: Vec<SlackFile>,
 }
@@ -560,6 +561,7 @@ async fn handle_push_event(
                     channel: channel_id,
                     ts: msg.origin.ts.to_string(),
                     thread_ts: msg.origin.thread_ts.map(|ts| ts.to_string()),
+                    user,
                     text,
                     files,
                 });
@@ -583,6 +585,7 @@ async fn handle_push_event(
                 channel: mention.channel.to_string(),
                 ts: mention.origin.ts.to_string(),
                 thread_ts: mention.origin.thread_ts.map(|ts| ts.to_string()),
+                user,
                 text,
                 files,
             });

@@ -34,9 +34,24 @@ pub async fn handle_event(
         channel,
         ts,
         thread_ts,
+        user,
         text,
         files,
     } = event;
+
+    // Check user permission
+    let allowed = &config.bridge.allowed_users;
+    if !allowed.is_empty() && !allowed.contains(&user) {
+        debug!("User {} is not in allowed_users, ignoring message", user);
+        let _ = slack
+            .send_message(
+                &channel,
+                thread_ts.as_deref().or(Some(&ts)),
+                &format!("⛔ Sorry <@{}>, you don't have permission to use this bot.", user),
+            )
+            .await;
+        return;
+    }
 
     // Strip bot mention prefix (e.g. "<@U12345> ") so @mentions don't break command parsing
     let text = if let Some(rest) = text.trim_start().strip_prefix("<@") {
