@@ -101,7 +101,7 @@ impl Config {
             bridge: BridgeConfig {
                 default_workspace: "~".into(),
                 auto_approve: false,
-                allowed_users: vec!["U0123456789".into()],
+                allowed_users: vec![],
             },
             agents: vec![
                 AgentConfig {
