@@ -32,6 +32,10 @@ pub struct BridgeConfig {
     pub default_workspace: String,
     /// Global auto-approve setting for tool calls
     pub auto_approve: bool,
+    /// List of allowed Slack user IDs (e.g. ["U12345", "U67890"]).
+    /// If empty or omitted, all users are allowed.
+    #[serde(default)]
+    pub allowed_users: Vec<String>,
 }
 
 /// Agent configuration
@@ -97,6 +101,7 @@ impl Config {
             bridge: BridgeConfig {
                 default_workspace: "~".into(),
                 auto_approve: false,
+                allowed_users: vec!["U0123456789".into()],
             },
             agents: vec![
                 AgentConfig {
